@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('should register a new user successfully', async ({ page }) => {
+test('should register a new user and delete it successfully', async ({ page }) => {
 
   // go to landing page and click signup link
   await page.goto('https://automationexercise.com/');
@@ -31,4 +31,9 @@ test('should register a new user successfully', async ({ page }) => {
   await page.locator('#zipcode').fill('1234');
   await page.getByRole('textbox', { name: 'Mobile Number *' }).fill('0670670670677');
   await page.getByRole("button", { name: 'Create Account' }).click();
+
+  // continue and delete account
+  await expect(page.getByText('Account Created!')).toBeVisible();
+  await page.getByRole('link', { name: 'Continue' }).click();
+  await page.getByRole('link', { name: 'Delete Account' }).click();
 });
