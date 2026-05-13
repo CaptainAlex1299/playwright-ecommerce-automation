@@ -1,12 +1,16 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, Page } from '@playwright/test';
 
-test('should login user successfully', async ({ page }) => {
+async function login(page: Page){
     await page.goto('https://automationexercise.com/');
     await expect(page.getByText('Signup / Login')).toBeVisible();
     await page.getByRole('link', { name: 'Signup / Login' }).click();
     await page.locator('[data-qa="login-email"]').fill('alexEmail@gmail.com');
     await page.locator('[data-qa="login-password"]').fill('myPassword');
     await page.getByRole('button', { name: 'Login' }).click();
+}
+
+test('should login user successfully', async ({ page }) => {
+    await login(page);
     await expect(page.getByRole('link', { name: 'Logout' })).toBeVisible();
     await page.getByRole('link', { name: 'Logout' }).click();
 });
