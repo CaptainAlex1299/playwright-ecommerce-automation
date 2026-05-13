@@ -37,3 +37,13 @@ test('should register a new user and delete it successfully', async ({ page }) =
   await page.getByRole('link', { name: 'Continue' }).click();
   await page.getByRole('link', { name: 'Delete Account' }).click();
 });
+
+test('should not Register User with existing email', async ({ page }) => {
+  await page.goto('https://automationexercise.com/');
+  await expect(page.getByText('Signup / Login')).toBeVisible();
+  await page.getByRole('link', { name: 'Signup / Login' }).click();
+  await page.getByRole('textbox', { name: 'Name' }).fill('Alexander');
+  await page.locator('[data-qa="signup-email"]').fill('alexEmail@gmail.com');
+  await page.getByRole('button', { name: 'Signup' }).click();
+  await expect(page.getByText('Email Address already exist!')).toBeVisible();
+})
