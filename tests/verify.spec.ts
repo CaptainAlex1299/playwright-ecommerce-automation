@@ -10,3 +10,4 @@ test('should successfuly send details', async ({ page }) => {
     await page.getByRole('link', { name: ' Test Cases' }).click();
     await expect(page.getByText("Test Case")).toHaveCount(32);
 });
+
