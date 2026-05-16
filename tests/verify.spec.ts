@@ -24,7 +24,10 @@ test('search a product', async ({ page }) => {
     await expect(page.locator('#search_product')).toBeVisible();
     await page.locator('#search_product').fill('Summer White Top');
     await page.locator('#submit_search').click();
-    await page.locator('#search_product').clear();
     await expect(page.locator('img[src="/get_product_picture/6"]')).toBeVisible();
 })
 
+test.only('verify subscription', async ({ page }) => {
+     await page.goto("https://automationexercise.com/");
+     await expect(page.locator('#susbscribe_email')).toBeVisible();
+});
