@@ -1,4 +1,9 @@
 import { test, expect, Page } from '@playwright/test';
+import { blockPopups } from './utils/popopBlocker';
+
+test.beforeEach(({ page }) => {
+     blockPopups(page);
+});
 
 async function login(page: Page) {
     await page.goto('https://automationexercise.com/');

@@ -1,4 +1,9 @@
 import { test, expect } from '@playwright/test';
+import { blockPopups } from './utils/popopBlocker';
+
+test.beforeEach(({ page }) => {
+     blockPopups(page);
+});
 
 test('should register a new user and delete it successfully', async ({ page }) => {
 
