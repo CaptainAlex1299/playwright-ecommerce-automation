@@ -14,9 +14,7 @@ test('should successfuly send details', async ({ page }) => {
     await page.locator('[data-qa="subject"]').fill('Playwright Automation');
     await page.locator('[data-qa="message"]').fill('Hello World!');
     await page.locator('input[type="file"]').setInputFiles('tests/files/alexander-forrest-resume.pdf');
-    page.on('dialog', async dialog => {
-        await dialog.accept();
-    });
+    page.on('dialog', dialog => dialog.accept());
     await page.locator('input[type="submit"]').click();
     await expect(page.getByText('Success! Your details have been submitted successfully.').first()).toBeVisible();
     await page.getByText('Home').nth(1).click();
