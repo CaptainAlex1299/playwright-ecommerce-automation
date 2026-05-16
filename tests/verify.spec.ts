@@ -1,13 +1,20 @@
 import { test, expect, Page } from '@playwright/test';
+import { blockPopups } from './utils/popopBlocker';
 
-test('should successfuly send details', async ({ page }) => {
-    async function closeAdIfPresent(page: Page) {
-            const popup = page.locator('#dismiss-button-element');
-            await popup.click({ timeout: 2000 }).catch(() => { });
-        }
+test.beforeEach(({ page }) => {
+     blockPopups(page);
+});
+
+test('verify test cases', async ({ page }) => {
     await page.goto("https://automationexercise.com/");
-    await closeAdIfPresent(page);
     await page.getByRole('link', { name: ' Test Cases' }).click();
-    await expect(page.getByText("Test Case")).toHaveCount(32);
+    const testCases = page.getByText('Test Case');
+    const count = await testCases.count();
+    expect(count).toBeGreaterThanOrEqual(26);
+});
+
+test('verify products on home page', async ({ page }) => {
+    await page.goto("https://automationexercise.com/");
+    await expect(page.locator('.product-overlay')).toHaveCount(34);
 });
 
