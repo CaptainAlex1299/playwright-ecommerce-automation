@@ -27,7 +27,19 @@ test('search a product', async ({ page }) => {
     await expect(page.locator('img[src="/get_product_picture/6"]')).toBeVisible();
 })
 
-test.only('verify subscription', async ({ page }) => {
+test('verify subscription', async ({ page }) => {
      await page.goto("https://automationexercise.com/");
      await expect(page.locator('#susbscribe_email')).toBeVisible();
+});
+
+test('verify subscription in cart page', async ({ page }) => {
+    await page.goto("https://automationexercise.com/");
+    await page.getByRole('link', { name: 'Cart' }).click();
+    await expect(page.locator('#susbscribe_email')).toBeVisible();
+});
+
+test('add products in cart', async ({ page }) => {
+    await page.goto("https://automationexercise.com/");
+    await page.locator('img[src="/get_product_picture/1"]').hover();
+    await page.locator('.overlay-content [data-product-id="1"]').click();
 });
