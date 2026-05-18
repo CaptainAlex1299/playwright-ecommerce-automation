@@ -38,8 +38,15 @@ test('verify subscription in cart page', async ({ page }) => {
     await expect(page.locator('#susbscribe_email')).toBeVisible();
 });
 
-test('add products in cart', async ({ page }) => {
+test('add products to cart and verify item in cart', async ({ page }) => {
     await page.goto("https://automationexercise.com/");
     await page.locator('img[src="/get_product_picture/1"]').hover();
     await page.locator('.overlay-content [data-product-id="1"]').click();
+    await page.locator('[data-dismiss="modal"]').click();
+    await page.locator('img[src="/get_product_picture/2"]').hover();
+    await page.locator('.overlay-content [data-product-id="2"]').click();
+    await page.locator('[data-dismiss="modal"]').click();
+    await page.getByRole('link', { name: 'Cart' }).click();
+    await expect(page.getByText('Blue Top')).toBeVisible();
+    await expect(page.getByText('Men Tshirt')).toBeVisible();
 });
