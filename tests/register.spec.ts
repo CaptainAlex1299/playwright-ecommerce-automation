@@ -1,12 +1,11 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, Page } from '@playwright/test';
 import { blockPopups } from './utils/popopBlocker';
 
 test.beforeEach(({ page }) => {
-     blockPopups(page);
+  blockPopups(page);
 });
 
-test('should register a new user and delete it successfully', async ({ page }) => {
-
+export async function registerUser(page: Page) {
   // go to landing page and click signup link
   await page.goto('https://automationexercise.com/');
   await expect(page.getByText('Signup / Login')).toBeVisible();
@@ -40,6 +39,10 @@ test('should register a new user and delete it successfully', async ({ page }) =
   // continue and delete account
   await expect(page.getByText('Account Created!')).toBeVisible();
   await page.getByRole('link', { name: 'Continue' }).click();
+}
+
+test('should register a new user and delete it successfully', async ({ page }) => {
+  await registerUser(page);
   await page.getByRole('link', { name: 'Delete Account' }).click();
 });
 

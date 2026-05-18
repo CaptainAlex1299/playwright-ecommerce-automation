@@ -28,8 +28,8 @@ test('search a product', async ({ page }) => {
 })
 
 test('verify subscription', async ({ page }) => {
-     await page.goto("https://automationexercise.com/");
-     await expect(page.locator('#susbscribe_email')).toBeVisible();
+    await page.goto("https://automationexercise.com/");
+    await expect(page.locator('#susbscribe_email')).toBeVisible();
 });
 
 test('verify subscription in cart page', async ({ page }) => {
@@ -38,7 +38,7 @@ test('verify subscription in cart page', async ({ page }) => {
     await expect(page.locator('#susbscribe_email')).toBeVisible();
 });
 
-test('add products to cart and verify item in cart', async ({ page }) => {
+export async function addProductsToCart(page: Page) {
     await page.goto("https://automationexercise.com/");
     await page.locator('img[src="/get_product_picture/1"]').hover();
     await page.locator('.overlay-content [data-product-id="1"]').click();
@@ -47,6 +47,10 @@ test('add products to cart and verify item in cart', async ({ page }) => {
     await page.locator('.overlay-content [data-product-id="2"]').click();
     await page.locator('[data-dismiss="modal"]').click();
     await page.getByRole('link', { name: 'Cart' }).click();
+}
+
+test('add products to cart and verify items in cart', async ({ page }) => {
+    await addProductsToCart(page);
     await expect(page.getByText('Blue Top')).toBeVisible();
     await expect(page.getByText('Men Tshirt')).toBeVisible();
 });
