@@ -6,11 +6,6 @@ test.beforeEach(({ page }) => {
 });
 
 export async function registerUser(page: Page) {
-  // go to landing page and click signup link
-  await page.goto('https://automationexercise.com/');
-  await expect(page.getByText('Signup / Login')).toBeVisible();
-  await page.getByRole('link', { name: 'Signup / Login' }).click();
-
   // fill email and name and click sign up
   await page.getByRole('textbox', { name: 'Name' }).fill('Alexander');
   const randomEmail = `alex${Date.now()}@gmail.com`;
@@ -42,6 +37,9 @@ export async function registerUser(page: Page) {
 }
 
 test('should register a new user and delete it successfully', async ({ page }) => {
+  await page.goto('https://automationexercise.com/');
+  await expect(page.getByText('Signup / Login')).toBeVisible();
+  await page.getByRole('link', { name: 'Signup / Login' }).click();
   await registerUser(page);
   await page.getByRole('link', { name: 'Delete Account' }).click();
 });

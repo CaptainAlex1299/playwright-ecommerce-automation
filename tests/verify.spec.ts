@@ -1,5 +1,6 @@
 import { test, expect, Page } from '@playwright/test';
 import { blockPopups } from './utils/popopBlocker';
+import { registerUser } from './register.spec';
 
 test.beforeEach(({ page }) => {
     blockPopups(page);
@@ -53,4 +54,11 @@ test('add products to cart and verify items in cart', async ({ page }) => {
     await addProductsToCart(page);
     await expect(page.getByText('Blue Top')).toBeVisible();
     await expect(page.getByText('Men Tshirt')).toBeVisible();
+});
+
+test('signup on checkout', async ({ page }) => {
+    await addProductsToCart(page);
+    await page.getByText('Proceed to Checkout').click();
+    await page.getByRole('link', { name: 'Register / Login' }).click();
+    await registerUser(page);
 });
