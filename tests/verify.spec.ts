@@ -50,15 +50,21 @@ export async function addProductsToCart(page: Page) {
     await page.locator('[data-dismiss="modal"]').click();
 }
 
-test.only('add products to cart and verify items in cart', async ({ page }) => {
+test('add products to cart and verify items in cart', async ({ page }) => {
     await addProductsToCart(page);
+    await page.getByRole('link', { name: 'Cart' }).click();
     await expect(page.locator('#product-1 .cart_quantity button')).toContainText('1');
     await expect(page.locator('#product-2 .cart_quantity button')).toContainText('1');
 });
 
-test('signup on checkout', async ({ page }) => {
+test('register before checkout', async ({ page }) => {
     await addProductsToCart(page);
+    await page.getByRole('link', { name: 'Cart' }).click();
     await page.getByText('Proceed to Checkout').click();
     await page.getByRole('link', { name: 'Register / Login' }).click();
+    await page.pause();
     await registerUser(page);
+    await page.getByRole('link', { name: 'Cart' }).click();
+    await expect(page.locator('#product-1 .cart_quantity button')).toContainText('1');
+    await expect(page.locator('#product-2 .cart_quantity button')).toContainText('1');
 });
