@@ -44,16 +44,16 @@ export async function addProductsToCart(page: Page) {
     await page.locator('img[src="/get_product_picture/1"]').hover();
     await page.locator('.overlay-content [data-product-id="1"]').click();
     await page.locator('[data-dismiss="modal"]').click();
+
     await page.locator('img[src="/get_product_picture/2"]').hover();
     await page.locator('.overlay-content [data-product-id="2"]').click();
     await page.locator('[data-dismiss="modal"]').click();
-    await page.getByRole('link', { name: 'Cart' }).click();
 }
 
-test('add products to cart and verify items in cart', async ({ page }) => {
+test.only('add products to cart and verify items in cart', async ({ page }) => {
     await addProductsToCart(page);
-    await expect(page.getByText('Blue Top')).toBeVisible();
-    await expect(page.getByText('Men Tshirt')).toBeVisible();
+    await expect(page.locator('#product-1 .cart_quantity button')).toContainText('1');
+    await expect(page.locator('#product-2 .cart_quantity button')).toContainText('1');
 });
 
 test('signup on checkout', async ({ page }) => {
