@@ -1,6 +1,7 @@
 import { test, expect, Page } from '@playwright/test';
 import { blockPopups } from './utils/popopBlocker';
 import { registerUser } from './register.spec';
+import { login } from './login.spec';
 
 test.beforeEach(({ page }) => {
     blockPopups(page);
@@ -62,8 +63,18 @@ test('register before checkout', async ({ page }) => {
     await page.getByRole('link', { name: 'Cart' }).click();
     await page.getByText('Proceed to Checkout').click();
     await page.getByRole('link', { name: 'Register / Login' }).click();
-    await page.pause();
     await registerUser(page);
+    await page.getByRole('link', { name: 'Cart' }).click();
+    await expect(page.locator('#product-1 .cart_quantity button')).toContainText('1');
+    await expect(page.locator('#product-2 .cart_quantity button')).toContainText('1');
+});
+
+test('login before checkout', async ({ page }) => {
+    await addProductsToCart(page);
+    await page.getByRole('link', { name: 'Cart' }).click();
+    await page.getByText('Proceed to Checkout').click();
+    await page.getByRole('link', { name: 'Register / Login' }).click();
+    await login(page);
     await page.getByRole('link', { name: 'Cart' }).click();
     await expect(page.locator('#product-1 .cart_quantity button')).toContainText('1');
     await expect(page.locator('#product-2 .cart_quantity button')).toContainText('1');

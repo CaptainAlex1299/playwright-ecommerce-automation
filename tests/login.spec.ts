@@ -2,12 +2,10 @@ import { test, expect, Page } from '@playwright/test';
 import { blockPopups } from './utils/popopBlocker';
 
 test.beforeEach(({ page }) => {
-     blockPopups(page);
+    blockPopups(page);
 });
 
-async function login(page: Page) {
-    await page.goto('https://automationexercise.com/');
-    await expect(page.getByText('Signup / Login')).toBeVisible();
+export async function login(page: Page) {
     await page.getByRole('link', { name: 'Signup / Login' }).click();
     await page.locator('[data-qa="login-email"]').fill('alexEmail@gmail.com');
     await page.locator('[data-qa="login-password"]').fill('myPassword');
@@ -15,12 +13,16 @@ async function login(page: Page) {
 };
 
 test('should login user successfully', async ({ page }) => {
+    await page.goto('https://automationexercise.com/');
+    await expect(page.getByText('Signup / Login')).toBeVisible();
     await login(page);
     await expect(page.getByRole('link', { name: 'Logout' })).toBeVisible();
     await page.getByRole('link', { name: 'Logout' }).click();
 });
 
 test('logout successfully', async ({ page }) => {
+    await page.goto('https://automationexercise.com/');
+    await expect(page.getByText('Signup / Login')).toBeVisible();
     await login(page);
     await expect(page.getByRole('link', { name: 'Logout' })).toBeVisible();
     await page.getByRole('link', { name: 'Logout' }).click();
