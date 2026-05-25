@@ -80,7 +80,7 @@ test('login before checkout', async ({ page }) => {
     await expect(page.locator('#product-2 .cart_quantity button')).toContainText('1');
 });
 
-test.only('remove items from cart then verify items', async ({ page }) => {
+test('remove items from cart then verify items', async ({ page }) => {
     await addProductsToCart(page);
     await page.getByRole('link', { name: 'Cart' }).click();
     await expect(page.locator('#product-1 .cart_quantity button')).toContainText('1');
