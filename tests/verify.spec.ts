@@ -79,3 +79,13 @@ test('login before checkout', async ({ page }) => {
     await expect(page.locator('#product-1 .cart_quantity button')).toContainText('1');
     await expect(page.locator('#product-2 .cart_quantity button')).toContainText('1');
 });
+
+test.only('remove items from cart then verify items', async ({ page }) => {
+    await addProductsToCart(page);
+    await page.getByRole('link', { name: 'Cart' }).click();
+    await expect(page.locator('#product-1 .cart_quantity button')).toContainText('1');
+    await expect(page.locator('#product-2 .cart_quantity button')).toContainText('1');
+    await page.locator('#product-2 .cart_quantity_delete').click();
+    await page.locator('#product-1 .cart_quantity_delete').click();
+    await expect(page.getByText('Cart is empty! Click here to buy products.')).toBeVisible();
+});
