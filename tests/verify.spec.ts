@@ -89,3 +89,11 @@ test('remove items from cart then verify items', async ({ page }) => {
     await page.locator('#product-1 .cart_quantity_delete').click();
     await expect(page.getByText('Cart is empty! Click here to buy products.')).toBeVisible();
 });
+
+test('View Category Products', async ({page}) =>{
+    await page.goto("https://automationexercise.com/");
+    await page.getByRole('link', { name: 'Products' }).click();
+    await page.getByRole('link', { name: 'Women' }).click();
+    await page.getByRole('link', { name: 'Dress' }).click();
+    await expect(page.getByText('Women - Dress Products')).toBeVisible();
+});
