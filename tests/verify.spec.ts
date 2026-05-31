@@ -90,10 +90,24 @@ test('remove items from cart then verify items', async ({ page }) => {
     await expect(page.getByText('Cart is empty! Click here to buy products.')).toBeVisible();
 });
 
-test('View Category Products', async ({page}) =>{
+test('View Category Products', async ({ page }) => {
     await page.goto("https://automationexercise.com/");
     await page.getByRole('link', { name: 'Products' }).click();
     await page.getByRole('link', { name: 'Women' }).click();
     await page.getByRole('link', { name: 'Dress' }).click();
     await expect(page.getByText('Women - Dress Products')).toBeVisible();
+});
+
+test('Search Products and Verify Cart After Login', async ({ page }) => {
+    await page.goto("https://automationexercise.com/");
+    await page.getByRole('link', { name: 'Products' }).click();
+    await page.locator('#search_product').fill('Dress');
+    await page.locator('#submit_search').click();
+    await expect(page.getByText('Searched Products')).toBeVisible();
+    await page.locator('img[src="/get_product_picture/3"]').hover();
+    await page.locator('.overlay-content [data-product-id="3"]').click();
+    await page.locator('[data-dismiss="modal"]').click();
+    await login(page);
+    await page.getByRole('link', { name: 'Cart' }).click();
+    await expect(page.locator('#product-1 .cart_quantity button')).toContainText('1');
 });
