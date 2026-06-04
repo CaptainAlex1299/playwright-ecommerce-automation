@@ -1,5 +1,6 @@
 import { test, expect, Page } from '@playwright/test';
 import { blockPopups } from './utils/popopBlocker';
+import { registerUser } from './register.spec';
 
 export async function addProductsToCart(page: Page) {
     await page.goto("https://automationexercise.com/");
