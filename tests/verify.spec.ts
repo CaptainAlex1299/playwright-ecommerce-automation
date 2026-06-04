@@ -3,6 +3,17 @@ import { blockPopups } from './utils/popopBlocker';
 import { registerUser } from './register.spec';
 import { login } from './login.spec';
 
+export async function addProductsToCart(page: Page) {
+    await page.goto("https://automationexercise.com/");
+    await page.locator('img[src="/get_product_picture/1"]').hover();
+    await page.locator('.overlay-content [data-product-id="1"]').click();
+    await page.locator('[data-dismiss="modal"]').click();
+
+    await page.locator('img[src="/get_product_picture/2"]').hover();
+    await page.locator('.overlay-content [data-product-id="2"]').click();
+    await page.locator('[data-dismiss="modal"]').click();
+}
+
 test.beforeEach(({ page }) => {
     blockPopups(page);
 });
@@ -39,17 +50,6 @@ test('verify subscription in cart page', async ({ page }) => {
     await page.getByRole('link', { name: 'Cart' }).click();
     await expect(page.locator('#susbscribe_email')).toBeVisible();
 });
-
-export async function addProductsToCart(page: Page) {
-    await page.goto("https://automationexercise.com/");
-    await page.locator('img[src="/get_product_picture/1"]').hover();
-    await page.locator('.overlay-content [data-product-id="1"]').click();
-    await page.locator('[data-dismiss="modal"]').click();
-
-    await page.locator('img[src="/get_product_picture/2"]').hover();
-    await page.locator('.overlay-content [data-product-id="2"]').click();
-    await page.locator('[data-dismiss="modal"]').click();
-}
 
 test('add products to cart and verify items in cart', async ({ page }) => {
     await addProductsToCart(page);
